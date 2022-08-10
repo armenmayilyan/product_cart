@@ -30,6 +30,6 @@ class BaseRepository implements IBaseRepository
      */
     public function create(array $data)
     {
-       return $this->model->query()->create($data);
+        return $this->model->query()->create($data);
     }
 }

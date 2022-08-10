@@ -7,11 +7,13 @@ use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductStoreResource;
 use App\Repository\ProductRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 
 class ProductController extends Controller
 {
+    /**
+     * @var ProductInterface|ProductRepository
+     */
     protected $productRepo;
 
     /**
@@ -32,6 +34,11 @@ class ProductController extends Controller
         return ProductResource::collection($products);
     }
 
+    /**
+     * @param Request $request
+     * @return ProductStoreResource
+     */
+
     public function store(Request $request)
     {
         $user = auth()->user();
@@ -39,12 +46,12 @@ class ProductController extends Controller
         return new ProductStoreResource(count($user->products));
     }
 
-    /**
+    /**\
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function basketCount()
     {
-        $basket = \auth()->user()->products;
+        $basket = auth()->user()->products;
         return response($basket);
     }
 }

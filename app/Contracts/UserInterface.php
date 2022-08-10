@@ -10,7 +10,6 @@ interface UserInterface
      * @param $email
      * @return mixed
      */
-
     public function emailCheck($email);
 
 }

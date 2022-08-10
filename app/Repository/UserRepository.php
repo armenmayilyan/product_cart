@@ -24,6 +24,6 @@ class UserRepository extends BaseRepository implements UserInterface
      */
     public function emailCheck($email)
     {
-        return $this->model->query()->where('email',$email)->first();
+        return $this->model->query()->where('email', $email)->first();
     }
 }

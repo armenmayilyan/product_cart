@@ -27,15 +27,24 @@ class AuthController extends Controller
         $this->userRepo = $userRepo;
     }
 
+    /**
+     * @param LoginRequest $loginRequest
+     * @return LoginResource|false[]
+     */
     public function login(LoginRequest $loginRequest)
     {
         if (Auth::guard('web')->attempt(['email' => $loginRequest->loginemail, 'password' => $loginRequest->loginpassword])) {
             $accessToken = auth()->user()->createToken('authToken')->accessToken;
             return new LoginResource(['success' => 1, 'user' => auth()->user(), 'access_token' => $accessToken]);
         } else {
-            return ['success'=>false];
+            return ['success' => false];
         }
     }
+
+    /**
+     * @param RegisterRequest $registerRequest
+     * @return RegisterResource
+     */
 
     public function register(RegisterRequest $registerRequest)
     {
@@ -51,17 +60,20 @@ class AuthController extends Controller
     }
 
     /**
-     * @return GetAuthUserResource
+     * @return GetAuthUserResource]
      */
     public function getAuthUser()
     {
         return new GetAuthUserResource(['success' => 1, 'auth' => auth()->user()]);
     }
+
+    /**
+     * @return RegisterResource
+     */
     public function logout()
     {
         $user = Auth::user()->token('authToken');
         $user->revoke();
-
         return new RegisterResource(['success' => 1]);
 
     }

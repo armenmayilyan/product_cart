@@ -22,7 +22,8 @@ class ProductRepository extends BaseRepository implements ProductInterface
     /**
      * @return Product[]|Collection
      */
-    public function store(){
+    public function store()
+    {
         return $this->model->all();
     }
 
