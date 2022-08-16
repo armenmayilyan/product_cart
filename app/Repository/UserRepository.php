@@ -22,7 +22,7 @@ class UserRepository extends BaseRepository implements UserInterface
      * @param $email
      * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|mixed|object|null
      */
-    public function emailCheck($email)
+    public function getByEmail($email)
     {
         return $this->model->query()->where('email', $email)->first();
     }

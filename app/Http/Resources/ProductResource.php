@@ -12,8 +12,6 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request) + [
-            'quantity' => $this->quantity
-        ];
+        return parent::toArray($request);
     }
 }

@@ -6,10 +6,14 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\GetAuthUserResource;
 use App\Http\Resources\LoginResource;
+use App\Models\User;
 use App\Repository\UserRepository;
+use http\Env\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\RegisterResource;
+use Mockery\Exception;
 
 class AuthController extends Controller
 {
@@ -29,35 +33,40 @@ class AuthController extends Controller
 
     /**
      * @param LoginRequest $loginRequest
-     * @return LoginResource|false[]
+     * @return JsonResponse
      */
     public function login(LoginRequest $loginRequest)
     {
         if (Auth::guard('web')->attempt(['email' => $loginRequest->loginemail, 'password' => $loginRequest->loginpassword])) {
             $accessToken = auth()->user()->createToken('authToken')->accessToken;
-            return new LoginResource(['success' => 1, 'user' => auth()->user(), 'access_token' => $accessToken]);
+            return response()->json([
+                'success' => 1,
+                'user' => auth()->user(),
+                'token' => $accessToken
+            ]);
         } else {
-            return ['success' => false];
+            return response()->json(['success' => false]);
         }
     }
 
     /**
      * @param RegisterRequest $registerRequest
-     * @return RegisterResource
+     * @return JsonResponse
      */
 
     public function register(RegisterRequest $registerRequest)
     {
-        $data = [
-            'name' => $registerRequest->input('name'),
-            'email' => $registerRequest->input('email'),
-            'password' => Hash::make($registerRequest->input('password')),
-        ];
+            $data = [
+                'name' => $registerRequest->input('name'),
+                'email' => $registerRequest->input('email'),
+                'password' => Hash::make($registerRequest->input('password')),
+            ];
+            $this->userRepo->create($data);
+            return response()->json(['success' => 1]);
 
-        $this->userRepo->create($data);
-        return new RegisterResource(['success' => 1]);
 
     }
+
 
     /**
      * @return GetAuthUserResource]
@@ -68,13 +77,14 @@ class AuthController extends Controller
     }
 
     /**
-     * @return RegisterResource
+     * @return JsonResponse
      */
     public function logout()
     {
+
         $user = Auth::user()->token('authToken');
         $user->revoke();
-        return new RegisterResource(['success' => 1]);
+        return response()->json(['success' => 1]);
 
     }
 

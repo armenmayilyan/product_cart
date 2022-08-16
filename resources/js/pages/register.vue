@@ -3,6 +3,7 @@
         <div class="wrapper mt-5 w-50">
             <form class="form-signin" method="post">
                 <h2 class="form-signin-heading">Please Register</h2>
+                <p class="text-danger">{{ errors.massegeError }}</p>
                 <div class="input-group ">
                     <input type="email" v-model="form.email" class="form-control" name="username"
                            placeholder="Email Address" required=""
@@ -52,6 +53,7 @@ export default {
                 nameError: "",
                 passwordError: "",
                 confirmationError: '',
+                massegeError:''
             },
 
         }
@@ -90,7 +92,6 @@ export default {
         async userRegister() {
 
             if (this.form.password.length < 6 || this.form.password !== this.form.confirmation_password || this.form.name.length < 2 || this.form.name.length > 9 || !this.reg.test(this.form.email) || this.form.password.length < 6) {
-                console.log(123)
                 if (!this.reg.test(this.form.email) || this.form.email.length === 0) {
                     this.errors.emailError = 'Email is not correct'
                 }
@@ -106,8 +107,11 @@ export default {
                 return false
             }
             let response = await this.$store.dispatch('register/registerUser',this.form)
+
             if (response.success){
                  router.push({ path: '/login'})
+            }else{
+               console.log(1111)
             }
         }
     },

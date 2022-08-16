@@ -5,7 +5,7 @@
             </div>
             <div class="container py-5">
                 <div class="row ">
-                    <div class="text-center">
+                    <div class="text-center" @click="productsname">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
                              class="bi bi-cart-fill" viewBox="0 0 16 16">
                             <path
@@ -22,7 +22,6 @@
                             <div class="card-body">
                                 <div class="text-center">
                                     <h5 class="card-title">{{ product.name }}</h5>
-
                                     <p class="text-muted mb-4">{{ product.description }}</p>
                                 </div>
                                 <div class="d-flex justify-content-between total font-weight-bold mt-4">
@@ -63,7 +62,6 @@ export default {
     methods: {
         addInBasket(id) {
             let product = this.products.find(elem => elem.id === id)
-
             let payload = {
                 id: product.id,
                 quantity: product.quantity,

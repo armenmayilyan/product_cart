@@ -45,7 +45,7 @@ export default {
     methods: {
         async logout() {
             let response = await axios.get('/api/logout');
-            let success = response.data.data.success
+            let success = response.data.success
             if (success === 1) {
                 await this.$store.dispatch('login/removeAuth')
                 this.isLoggedIn = false
@@ -58,9 +58,8 @@ export default {
     },
     watch: {
         authUser(val) {
-            // console.log(Object.keys(val))
             if (Object.keys(val)) {
-                console.log(11111,val)
+                console.log(val)
                 return this.isLoggedIn = true
             }else{
                 console.log(false)
@@ -69,7 +68,7 @@ export default {
             }
         },
         isLoggedIn(val) {
-            console.log(222,val)
+            console.log(val)
         }
     }
 

@@ -30,7 +30,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = $this->productRepo->store();
+        $products = $this->productRepo->getAll();
         return ProductResource::collection($products);
     }
 

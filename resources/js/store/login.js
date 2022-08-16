@@ -19,9 +19,9 @@ const store = ({
         login(store, data) {
             return new Promise((resolve, reject) => {
                 axios.post('/api/login', data).then(response => {
-                    localStorage.setItem('auth_token', response.data.data.token)
+                    localStorage.setItem('auth_token', response.data.token)
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('auth_token')
-                    store.commit('SET_USER', response.data.data)
+                    store.commit('SET_USER', response.data)
                     resolve(response)
                 }).catch(err => {
                     reject(err)
